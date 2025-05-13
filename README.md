@@ -1,6 +1,8 @@
 # ANCOM-implementation
 An implementation in R of ANCOM(Mandal et al. 2015), using a custom method for finding a Reference taxon for computation
 
+Please not: this implementation is designed for populations(K)=2 and subjects per population(j)=1.
+
 Upon taxonomic characterisation of 16s rRNA sequencing samples, we obtain Operational Taxonomic Units(OTUs) or Amplicon Sequence Variants(ASVs) which represent a unit of a microbial taxa.
 
 These units usually represent Relative abundance of taxons in a community. While Absolute abundance is count data which can be applied directly to parametric statistical methods, Relative abundance are counts out of a total whole. This is because Amplicons produced DNA sequencing are automatically normalised by the sequencing depth or number of total reads produced.
