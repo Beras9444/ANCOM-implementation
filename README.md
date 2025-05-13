@@ -24,7 +24,7 @@ Where:
 γr2 represents the relative abundance of taxon 1 in sample 2, 
 E(x) represents the average or expected value of x.
 
-Here log ration of relative abundances were taken to allow for Absolute abundance based comparision, which was then squared to account for bidirectional differences. The taxon outputting the lowest value from this formula was taken as the reference taxon.
+Here log ratio of relative abundances were taken to allow for Absolute abundance based comparision, which was then squared to account for bidirectional differences. The taxon outputting the lowest value from this formula was taken as the reference taxon.
 
 For detailed methods please refer to the ANCOM paper: https://www.tandfonline.com/doi/full/10.3402/mehd.v26.27663.
 
