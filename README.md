@@ -20,9 +20,9 @@ a custom mathematical formula was developed and utilised here, which is as follo
 
 Where:
 
-γr1 represents the relative abundance of taxon 1 in sample 1
-γr2 represents the relative abundance of taxon 1 in sample 2
-E(x) represents the average or expected value of x
+γr1 represents the relative abundance of taxon 1 in sample 1, 
+γr2 represents the relative abundance of taxon 1 in sample 2, 
+E(x) represents the average or expected value of x.
 
 Here log ration of relative abundances were taken to allow for Absolute abundance based comparision, which was then squared to account for bidirectional differences. The taxon outputting the lowest value from this formula was taken as the reference taxon.
 
