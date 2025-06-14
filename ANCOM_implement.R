@@ -1,14 +1,13 @@
-Before_table=<insert table>
-After_table=<insert table>
+Before_table=read.csv(<First time point>)
+After_table=read.csv(<Second time point>)
 
-#Make a pseudocount
-for(x in seq(2,625,1)){
+#make a pseudocount
+for(x in seq(2,ncol(After_table),1)){
   for(y in seq(1,3,1)){
     After_table[y,x]=After_table[y,x]+1
   }
 }
-#Convert data to type numeric
-for(x in seq(2,625,1)){
+for(x in seq(2,ncol(Before_table),1)){
   for(y in seq(1,3,1)){
     Before_table[y,x]=as.numeric(Before_table[y,x])+1
   }
@@ -16,29 +15,31 @@ for(x in seq(2,625,1)){
 
 
 #Adding a column at the end to contain sum of rows
-sumv1=c()
+colu=ncol(Before_table)
 
 for (q in seq(1,3)){
-  for (p in seq(2,625)){
+  sumv1=c()
+  for (p in seq(2,colu)){
     sumv1=c(sumv1,as.numeric(Before_table[q,p]))
   }
-  Before_table[q,626]=sum(sumv1)
+  Before_table[q,colu+1]=sum(sumv1)
 }
 
-sumv2=c()
+colu=ncol(After_table)
 
 for (q in seq(1,3)){
-  for (p in seq(2,625)){
+  sumv2=c()
+  for (p in seq(2,colu)){
     sumv2=c(sumv2,as.numeric(After_table[q,p]))
   }
-  After_table[q,626]=sum(sumv2)
+  After_table[q,colu+1]=sum(sumv2)
 }
 
 #convert to relative abundance
-for(y in seq(2,625)){
+for(y in seq(2,colu)){
   for(w in seq(1,3)){
-    Before_table[w,y]=((as.numeric(Before_table[w,y]))/(as.numeric(Before_table[w,626])))*100
-    After_table[w,y]=((as.numeric(After_table[w,y]))/(as.numeric(After_table[w,626])))*100
+    Before_table[w,y]=((as.numeric(Before_table[w,y]))/(as.numeric(Before_table[w,colu+1])))*100
+    After_table[w,y]=((as.numeric(After_table[w,y]))/(as.numeric(After_table[w,colu+1])))*100
   }
 }
 
@@ -55,11 +56,13 @@ for(t in seq(2,625)){
   if(val < start){
     ref<-t
     start<-val
-  }
+    }
 }
 
+
+
 #Convert to log ratios over reference taxon
-for(y in seq(2,625)){
+for(y in seq(2,colu)){
   for(w in seq(1,3)){
     if (y==ref){
       next
@@ -72,31 +75,37 @@ for(y in seq(2,625)){
 #Find log mean ratios over mean reference in a new row
 Before_table[5,] = c('log of mean of i/mean of ref', as.numeric(apply(Before_table[4,c(-1)],2, function(x) as.numeric(x)-as.numeric(Before_table[4,ref]))))
 After_table[5,] = c('log of mean of i/mean of ref', as.vector(apply(After_table[4,c(-1)],2, function(x) as.numeric(x)-as.numeric(After_table[4,ref]))))
+  
+
+
 
 #Perform a t test for all taxons, and report the taxons with p values below 0.05
-list=c()
+i_list=c()
 p_list=c()
-for (n in seq(2,625)){
+for (n in seq(2,colu)){
   arr1=c(as.numeric(Before_table[c(-4,-5),n]))
   arr2=c(as.numeric(After_table[c(-4,-5),n]))
   test_r=t.test(arr1,arr2)
   if(n==ref){
-    list=c(list,"ref")
+    i_list=c(i_list,"ref")
   }else{
     if(test_r$p.value<0.05){
-      list=c(list,n)
-      Before_table[6,n]=test_r$p.value
+    i_list=c(i_list,n)
+    Before_table[6,n]=test_r$p.value
     }
   }
+
 }
 
 #Convert list to numeric form
-list=as.numeric(list)
+i_list=as.numeric(i_list)
+
+
 
 #Report list with significantly different taxons based on log ratios, followed by their difference in log ratios of means over reference
 
 taxa_list2=c()
-for(r in list){
+for(r in i_list){
   if(is.na(r)){
     next
   }
@@ -104,7 +113,7 @@ for(r in list){
 }
 
 #Remove NA from reference taxon from list
-list2=list[-which(is.na(list))]
+list2=i_list[-which(is.na(i_list))]
 
 #Find ratio of log of mean taxon ratios over ref taxon of each significantly differing taxon 
 #Also making a list for p values
@@ -115,7 +124,7 @@ for (k in list2){
   p_value=c(p_value,as.numeric(Before_table[6,k]))
 }
 
-which(is.na(list))
+
 #Make list of all significantly differing taxons names using indices frim previous list
 change_list<-colnames(Before_table)[list2]
 
@@ -125,4 +134,4 @@ for (r in seq(1,length(change_list))){
   final_list=c(final_list,c(change_list[r],p_value[r],change[r]))
 }
 
-write(final_list,file="./Results/Change_list2.txt")
+write(final_list,file=<Write location>)
