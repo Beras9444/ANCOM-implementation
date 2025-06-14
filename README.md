@@ -28,6 +28,16 @@ E(x) represents the average or expected value of x.
 
 Here log ratio of relative abundances were taken to allow for Absolute abundance based comparision, which was then squared to account for bidirectional differences. The taxon outputting the lowest value from this formula was taken as the reference taxon.
 
+# Inputs
+
+Inputs need to be two tables, each from a specific time point, containing the relative abundances for each observed taxon accross all samples. The tables need to specify the taxon names in the columns and the sample names in the rows, as illustrated:
+
+samples  Taxon1 Taxon2 Taxon3
+Sample1  0      2      4
+Sample2  7      2      9
+
+Please not that the union of taxons from all samples needs to be present in the table. Missing values can be filled with zeoes. Also the order of the taxon names and the samples needs to be the same between both tables.
+
 For detailed methods please refer to the ANCOM paper: https://www.tandfonline.com/doi/full/10.3402/mehd.v26.27663.
 
 Disclaimer: This method uses the following assumptions, as far as the author was able to glean:
